@@ -4,8 +4,17 @@
 
 using std::string;
 
-// TODO: Complete this helper function
-// INPUT: Long int measuring seconds
-// OUTPUT: HH:MM:SS
-// REMOVE: [[maybe_unused]] once you define the function
-string Format::ElapsedTime(long seconds[[maybe_unused]]) { return string(); }
+
+string Format::ElapsedTime(long seconds[[maybe_unused]]) { 
+    const long s = seconds % 60;
+    const long m = (seconds / 60) % 60;
+    const long h = seconds / 3600;
+
+    std::stringstream result;
+
+    result << std::setfill('0') << std::setw(2) << h << ":";
+    result << std::setfill('0') << std::setw(2) << m << ":";  
+    result << std::setfill('0') << std::setw(2) << s; 
+
+    return result.str(); 
+}

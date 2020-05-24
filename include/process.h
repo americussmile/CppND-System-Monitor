@@ -18,6 +18,10 @@ class Process {
 
   // TODO: Declare any necessary private members
  private:
+    int pid_;
+    float cpu_=0;
+    long cached_process_ticks_=0;
+    long cached_system_ticks_=0;
 };
 
 #endif

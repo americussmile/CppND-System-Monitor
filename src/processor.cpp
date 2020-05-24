@@ -1,4 +1,12 @@
 #include "processor.h"
 
 // TODO: Return the aggregate CPU utilization
-float Processor::Utilization() { return 0.0; }
+float Processor::Utilization() { 
+    lfloat tAllOld = tAll_;
+    float tIdleOld = tIdle_;  
+    tAll_  = LinuxParser::Jiffies();
+    tIdle_ = LinuxParser::IdleJiffies();
+
+    float rValue= (((tAll_-tAllOld)-(tIdle_-tIdleOld)) / (tAll_-tAllOld));
+    return (rValue>0.0)? rValue : 0.0;
+ }
