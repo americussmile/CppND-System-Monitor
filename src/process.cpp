@@ -29,7 +29,7 @@ string Process::User() { return LinuxParser::User(pid_); }
 long int Process::UpTime() { return LinuxParser::UpTime(pid_); }
 
 // TODO: Overload the "less than" comparison operator for Process objects
-bool Process::CpuUtilization(long process_ticks, long system_ticks) {
+void Process::CpuUtilization(long process_ticks, long system_ticks) {
 
   long duration_process=process_ticks - cached_process_ticks_;
   long duration = system_ticks - cached_system_ticks_;
