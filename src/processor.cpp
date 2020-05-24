@@ -1,5 +1,11 @@
 #include "processor.h"
 
+Processor::Processor(){
+  tAll_  = LinuxParser::Jiffies();
+  tIdle_ = LinuxParser::IdleJiffies();  
+}
+
+
 // TODO: Return the aggregate CPU utilization
 float Processor::Utilization() { 
     lfloat tAllOld = tAll_;
