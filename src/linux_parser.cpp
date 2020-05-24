@@ -97,7 +97,7 @@ long LinuxParser::UpTime() {
   std::ifstream filestream(kProcDirectory + kUptimeFilename);
   if (filestream.is_open()){
     std::getline(filestream, line);
-    std::isstringstream linestream(line);
+    std::istringstream linestream(line);
     linestream >> value;
   }
   return (std::stol(value));
