@@ -8,7 +8,7 @@ Processor::Processor(){
 
 // TODO: Return the aggregate CPU utilization
 float Processor::Utilization() { 
-    lfloat tAllOld = tAll_;
+    float tAllOld = tAll_;
     float tIdleOld = tIdle_;  
     tAll_  = LinuxParser::Jiffies();
     tIdle_ = LinuxParser::IdleJiffies();
