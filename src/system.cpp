@@ -24,16 +24,6 @@ Processor& System::Cpu() { return cpu_; }
 
 // TODO: Return a container composed of the system's processes
 vector<Process>& System::Processes() { 
-    processes_.clear();
-    vector<int> pids = LinuxParser::Pids();
-    for (int pid: pids) {
-        processes_.emplace_back(Process(pid));    
-    }
-    for (Process& process: processes_){
-        process.CpuUtilization(LinuxParser::ActiveJiffies(process.Pid()),
-        LinuxParser::Jiffies());
-    }
-    std::sort(processes_.begin(),processes_.end(),std::greater<Process>());
     return processes_; 
  }
 
