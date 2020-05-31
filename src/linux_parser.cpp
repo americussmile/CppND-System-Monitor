@@ -120,21 +120,6 @@ long LinuxParser::Jiffies() {
           std::stol(sIdle)+std::stol(sIOwait));
 }
 
-long LinuxParser::ActiveJiffies(int pid[[maybe_unused]]) { 
-  string line ="",shlp="";
-  string sUtime="", sStime ="",sCUtime="",sCStime="";
-  std::ifstream filestream(kProcDirectory+to_string(pid)+kStatFilename);
-  if (filestream.is_open()) {
-    std::getline(filestream, line);
-    std::istringstream linestream(line);
-    for (int i=1; i<14; i++)
-      linestream >> shlp;
-    linestream >> sUtime >> sStime>> sCUtime >>sCStime;
-  }
-  return (std::stol(sUtime)+std::stol(sStime)+
-          std::stol(sCUtime)+std::stol(sCStime));
-}
-
 // TODO: Read and return the number of active jiffies for the system
 long LinuxParser::ActiveJiffies() { 
   string line ="";
