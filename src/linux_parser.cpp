@@ -21,8 +21,8 @@ string LinuxParser::OperatingSystem() {
       std::replace(line.begin(), line.end(), ' ', '_');
       std::replace(line.begin(), line.end(), '=', ' ');
       std::replace(line.begin(), line.end(), '"', ' ');
-      std::istringstream linestream(line);
-      while (linestream >> key >> value) {
+      std::istringstream streamLine(line);
+      while (streamLine >> key >> value) {
         if (key == "PRETTY_NAME") {
           std::replace(value.begin(), value.end(), '_', ' ');
           return value;
@@ -40,8 +40,8 @@ string LinuxParser::Kernel() {
   std::ifstream stream(kProcDirectory + kVersionFilename);
   if (stream.is_open()) {
     std::getline(stream, line);
-    std::istringstream linestream(line);
-    linestream >> os >> version >> kernel;
+    std::istringstream streamLine(line);
+    streamLine >> os >> version >> kernel;
   }
   return kernel;
 }
@@ -121,8 +121,8 @@ vector<string> LinuxParser::CpuUtilization() {
   std::string line;
   if (fileStream.is_open()) {
     std::getline(fileStream, line);
-    std::istringstream lineStream(line);
-    std::vector<std::string> cpu_util_info{std::istream_iterator<string>{lineStream}, 
+    std::istringstream streamLine(line);
+    std::vector<std::string> cpu_util_info{std::istream_iterator<string>{streamLine}, 
     std::istream_iterator<string>{}};
     cpu_util_info.erase(cpu_util_info.begin());
     return cpu_util_info; 
@@ -136,8 +136,8 @@ int LinuxParser::TotalProcesses() {
   std::string key, value;
   if (inputFileStream.is_open()) {
     while(std::getline(inputFileStream, line)){
-      std::istringstream linestream(line);
-      linestream >> key >> value;
+      std::istringstream streamLine(line);
+      streamLine >> key >> value;
       if (key == "processes") {
         return std::stoi(value);
       }
@@ -152,8 +152,8 @@ int LinuxParser::RunningProcesses() {
   std::string key, value;
   if (inputFileStream.is_open()) {
     while(std::getline(inputFileStream, line)){
-      std::istringstream linestream(line);
-      linestream >> key >> value;
+      std::istringstream streamLine(line);
+      streamLine >> key >> value;
       if (key == "procs_running") {
         return std::stoi(value);
       }
@@ -179,8 +179,8 @@ string LinuxParser::Ram(const int pid) {
   std::string tag, value;
   if (fileStream.is_open()) {
     while (std::getline(fileStream, line)) {
-      std::istringstream lineStream(line);
-      lineStream >> tag >> value;
+      std::istringstream streamLine(line);
+      streamLine >> tag >> value;
       if (tag == "VmSize:") {
         const long kb_ram = std::stol(value);
         const auto mb_ram = kb_ram / 1000;
@@ -196,8 +196,8 @@ string LinuxParser::Uid(const int pid) {
   string tag, value;
   if (fileStream.is_open()) {
     while(std::getline(fileStream, line)) {
-      std::istringstream lineStream(line);
-      lineStream >> tag >> value;
+      std::istringstream streamLine(line);
+      streamLine >> tag >> value;
       if (tag == "Uid:")
         return value;
     }
@@ -212,8 +212,8 @@ string LinuxParser::User(const int pid) {
   if (fileStream.is_open()){
     while(std::getline(fileStream, line)) {
       std::replace(line.begin(), line.end(), ':', ' ');
-      std::istringstream lineStream(line);
-      lineStream >> username >> x >> user_id; 
+      std::istringstream streamLine(line);
+      streamLine >> username >> x >> user_id; 
       if (user_id == LinuxParser::Uid(pid)) {
         return username;
       }
@@ -227,8 +227,8 @@ long LinuxParser::UpTime(const int pid) {
   std::string line;
   if (fileStream.is_open()) {
     std::getline(fileStream, line);
-    std::istringstream lineStream(line);
-    std::vector<std::string> data{std::istream_iterator<string>{lineStream}, std::istream_iterator<string>{}};
+    std::istringstream streamLine(line);
+    std::vector<std::string> data{std::istream_iterator<string>{streamLine}, std::istream_iterator<string>{}};
     return LinuxParser::UpTime() - std::stol(data[21])/sysconf(_SC_CLK_TCK);
   }
   return 0;
@@ -240,8 +240,8 @@ std::vector<long int> LinuxParser::Cpu(const int pid) {
   std::string line;
   if (fileStream.is_open()) {
     std::getline(fileStream, line);
-    std::istringstream lineStream(line);
-    const std::vector<std::string> data {std::istream_iterator<string>{lineStream}, std::istream_iterator<string>{}};
+    std::istringstream streamLine(line);
+    const std::vector<std::string> data {std::istream_iterator<string>{streamLine}, std::istream_iterator<string>{}};
     processInfo.push_back(std::stol(data[13]));
     processInfo.push_back(std::stol(data[14]));
     processInfo.push_back(std::stol(data[15]));
