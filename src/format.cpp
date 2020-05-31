@@ -1,22 +1,23 @@
 #include <string>
-#include <iomanip>
-#include <sstream>
 
 #include "format.h"
 
 using std::string;
 
+// INPUT: Long int measuring seconds
+// OUTPUT: HH:MM:SS
+string Format::ElapsedTime(const long seconds) { 
+    const int h = seconds/3600;
+    const int m = (seconds - h*3600)/60;
+    const int s = seconds - h*3600 - m*60;
+    std::string elapsedTime = PadZeroInts(h) + ":" + PadZeroInts(m) + ":" + PadZeroInts(s);
+    return elapsedTime; 
+}
 
-string Format::ElapsedTime(long seconds[[maybe_unused]]) { 
-    const long s = seconds % 60;
-    const long m = (seconds / 60) % 60;
-    const long h = seconds / 3600;
-
-    std::stringstream ssresult;
-
-    ssresult << std::setfill('0') << std::setw(2) << h << ":";
-    ssresult << std::setfill('0') << std::setw(2) << m << ":";  
-    ssresult << std::setfill('0') << std::setw(2) << s; 
-
-    return ssresult.str(); 
+std::string Format::PadZeroInts(const int x) {
+    std::string str = std::to_string(x);
+    while(str.length() < 2) {
+        str = "0" + str;
+    }
+    return str;
 }
